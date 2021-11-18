@@ -1,7 +1,7 @@
 {
   "name": "todo-migrator",
   "version": "1.0.0",
-  "description": "Migration tool for lint todos",
+  "description": "Migration tools for lint todos",
   "main": "index.js",
   "bin": {
     "migrate-todos": "index.js"
@@ -15,5 +15,8 @@
   },
   "volta": {
     "node": "16.13.0"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
   }
 }
