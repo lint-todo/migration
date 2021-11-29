@@ -2,11 +2,11 @@
   "name": "todo-migrator",
   "version": "1.0.0",
   "description": "Migration tools for lint todos",
+  "license": "MIT",
+  "author": "scalvert <steve.calvert@gmail.com>",
   "bin": {
     "migrate-todos": "migrate-todos.js"
   },
-  "author": "scalvert <steve.calvert@gmail.com>",
-  "license": "MIT",
   "scripts": {
     "test": "jest"
   },
@@ -15,13 +15,13 @@
     "legacy-todo-utils": "npm:@ember-template-lint/todo-utils@10.0.0",
     "log-symbols": "^4.0.0"
   },
-  "volta": {
-    "node": "16.13.0"
-  },
   "devDependencies": {
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "jest": "^27.3.1",
     "tmp": "^0.2.1"
+  },
+  "volta": {
+    "node": "16.13.0"
   }
 }
