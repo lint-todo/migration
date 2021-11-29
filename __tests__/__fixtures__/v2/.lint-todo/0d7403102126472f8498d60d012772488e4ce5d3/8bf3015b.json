@@ -1,0 +1,1 @@
+{"engine":"ember-template-lint","filePath":"addon/templates/components/enhance-page/option-wrapper.hbs","ruleId":"no-curly-component-invocation","range":{"start":{"line":47,"column":13},"end":{"line":47,"column":13}},"source":"72316dcd796a930ef6d843ac042dafe0885f12cb","fileFormat":2,"createdDate":1629331200000,"warnDate":2493248400000,"errorDate":2493334800000}

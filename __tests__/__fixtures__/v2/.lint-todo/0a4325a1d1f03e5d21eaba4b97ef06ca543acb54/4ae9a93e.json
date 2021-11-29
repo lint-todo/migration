@@ -1,0 +1,1 @@
+{"engine":"ember-template-lint","filePath":"addon/templates/components/online/page-title.hbs","ruleId":"no-implicit-this","range":{"start":{"line":33,"column":10},"end":{"line":33,"column":10}},"source":"70adc2ff890d35a6823062862e561fe4a777d8d8","fileFormat":2,"createdDate":1629331200000,"warnDate":2493248400000,"errorDate":2493334800000}

@@ -1,0 +1,1 @@
+{"engine":"ember-template-lint","filePath":"addon/templates/components/online/page-title.hbs","ruleId":"no-curly-component-invocation","range":{"start":{"line":33,"column":8},"end":{"line":33,"column":8}},"source":"83dd6f4e363ecf54ac8e333ae0627c0b19c9ccd5","fileFormat":2,"createdDate":1629331200000,"warnDate":2493248400000,"errorDate":2493334800000}
