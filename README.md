@@ -1,4 +1,4 @@
-# @lint-todo/migration
+# @lint-todo/migrator
 
 Migration tool to migrate lint todo files from multi-file storage to single-file storage.
 
@@ -7,7 +7,7 @@ Migration tool to migrate lint todo files from multi-file storage to single-file
 From within the project directory, run:
 
 ```ssh-shell
-npx @lint-todo/migration
+npx @lint-todo/migrator
 ```
 
 All done!
