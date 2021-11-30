@@ -14,7 +14,7 @@ const {
   todoStorageDirExists,
   getTodoStorageDirPath,
 } = require('legacy-todo-utils');
-const { success, warning } = require('log-symbols');
+const { success, warning, error } = require('log-symbols');
 
 function migrate(baseDir = process.cwd()) {
   if (todoStorageFileExists(baseDir)) {
@@ -23,6 +23,14 @@ function migrate(baseDir = process.cwd()) {
     );
   } else if (todoStorageDirExists(baseDir)) {
     let todos = readTodoData(baseDir);
+
+    if (todos.some((todoDatum) => todoDatum.fileFormat === 1)) {
+      process.stderr.write(
+        `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected. Please regenerate your todos before migrating.`
+      );
+      process.exit(1);
+    }
+
     let oldStorageDir = getTodoStorageDirPath(baseDir);
     let tmpStorageDir = `${oldStorageDir}__`;
 

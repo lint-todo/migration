@@ -4,9 +4,10 @@ const { existsSync, realpathSync, readFileSync } = require('fs');
 const tmp = require('tmp');
 const execa = require('execa');
 const {
-  writeTodoStorageFile,
   getTodoStorageFilePath,
   readTodoData,
+  todoStorageFileExists,
+  writeTodoStorageFile,
 } = require('@ember-template-lint/todo-utils');
 
 function createTmpDir() {
@@ -46,39 +47,28 @@ describe('migrator', () => {
     );
   });
 
-  it('can migrate v1 format to single file', async () => {
+  it('errors when attempting to migrate todos in v1 format', async () => {
     await createFixture('v1', tmp);
 
     let result = await run();
 
-    expect(result.stdout).toMatchInlineSnapshot(
-      `"✔ Successfully migrated 5 todos to single file format"`
+    expect(result.stderr).toMatchInlineSnapshot(
+      `"✖ Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected, which is unsupported when using single file format. Please regenerate your todos before migrating."`
     );
-    expect(readTodoData(tmp).size).toEqual(5);
-    expect(
-readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' })).
-toMatchInlineSnapshot(`
-"add|eslint|no-unused-vars|7|9|7|9||1626739200000|||app/components/foo.js
-add|eslint|use-isnan|2|7|2|7||1626739200000|||app/utils/util.js
-add|eslint|no-unused-vars|1|10|1|10||1626739200000|||app/utils/util.js
-add|eslint|no-undef|1|1|1|1||1626739200000|||rule-config.js
-add|eslint|no-undef|18|1|18|1||1626739200000|||json-formatter.js
-"
-`);
+    expect(todoStorageFileExists(tmp)).toEqual(false);
   });
 
   it('can migrate v2 format to single file', async () => {
     await createFixture('v2', tmp);
-    debugger;
+
     let result = await run();
 
     expect(result.stdout).toMatchInlineSnapshot(
       `"✔ Successfully migrated 11 todos to single file format"`
     );
     expect(readTodoData(tmp).size).toEqual(11);
-    expect(
-readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' })).
-toMatchInlineSnapshot(`
+    expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' }))
+      .toMatchInlineSnapshot(`
 "add|ember-template-lint|no-implicit-this|30|33|30|33|442958627e2982816f9069d2e7ca91a0361d4088|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
 add|ember-template-lint|no-implicit-this|33|10|33|10|70adc2ff890d35a6823062862e561fe4a777d8d8|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
 add|ember-template-lint|no-curly-component-invocation|33|8|33|8|83dd6f4e363ecf54ac8e333ae0627c0b19c9ccd5|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
