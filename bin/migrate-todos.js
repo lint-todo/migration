@@ -15,18 +15,46 @@ const {
   getTodoStorageDirPath,
 } = require('legacy-todo-utils');
 const { success, warning, error } = require('log-symbols');
+const meow = require('meow');
 
-function migrate(baseDir = process.cwd()) {
+const cli = meow(
+  `
+	Usage
+	  $ todo-migrator <working directory>
+
+	Options
+	  --removeV1, -r  Remove v1 todos from migration
+
+	Examples
+	  $ todo-migrator .
+`,
+  {
+    flags: {
+      removeV1: {
+        type: 'boolean',
+        alias: 'r',
+        default: false,
+      },
+    },
+  }
+);
+
+function migrate(baseDir, flags) {
+  if (baseDir === '.') {
+    baseDir = process.cwd();
+  }
+
   if (todoStorageFileExists(baseDir)) {
     process.stdout.write(
       `${warning} Skipped migration (detected .lint-todo file)`
     );
   } else if (todoStorageDirExists(baseDir)) {
     let todos = readTodoData(baseDir);
+    let removeV1 = flags.removeV1;
 
-    if (todos.some((todoDatum) => todoDatum.fileFormat === 1)) {
+    if (!removeV1 && todos.some((todoDatum) => todoDatum.fileFormat === 1)) {
       process.stderr.write(
-        `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected. Please regenerate your todos before migrating.`
+        `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected. Please rerun with the --remove-v1 option or regenerate your todos before migrating.`
       );
       process.exit(1);
     }
@@ -35,6 +63,10 @@ function migrate(baseDir = process.cwd()) {
     let tmpStorageDir = `${oldStorageDir}__`;
 
     renameSync(oldStorageDir, tmpStorageDir);
+
+    if (removeV1) {
+      todos = todos.filter((todoDatum) => todoDatum.fileFormat === 2);
+    }
 
     applyTodoChanges(
       getTodoStorageFilePath(baseDir),
@@ -53,5 +85,5 @@ function migrate(baseDir = process.cwd()) {
 }
 
 if (require.main === module) {
-  migrate();
+  migrate(cli.input[0], cli.flags);
 }

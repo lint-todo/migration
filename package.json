@@ -13,7 +13,8 @@
   "dependencies": {
     "@ember-template-lint/todo-utils": "^11.0.0-alpha.0",
     "legacy-todo-utils": "npm:@ember-template-lint/todo-utils@10.0.0",
-    "log-symbols": "^4.0.0"
+    "log-symbols": "^4.0.0",
+    "meow": "^9.0.0"
   },
   "devDependencies": {
     "execa": "^5.0.0",
