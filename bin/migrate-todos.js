@@ -46,7 +46,7 @@ function migrate(baseDir, flags) {
 
   if (todoStorageFileExists(baseDir)) {
     process.stdout.write(
-      `${warning} Skipped migration (detected .lint-todo file)`
+      `${warning} Skipped migration (.lint-todo file found)`
     );
   } else if (todoStorageDirExists(baseDir)) {
     let todos = readTodoData(baseDir);
@@ -59,7 +59,7 @@ function migrate(baseDir, flags) {
 
     if (!removeV1 && hasV1) {
       process.stderr.write(
-        `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected. Please rerun with the --remove-v1 option or regenerate your todos before migrating.`
+        `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format found. Please rerun with the --remove-v1 option or regenerate your todos before migrating.`
       );
       process.exit(1);
     }
@@ -93,7 +93,9 @@ function migrate(baseDir, flags) {
 
     process.stdout.write(message);
   } else {
-    process.stdout.write(`${warning} Skipped migration (nothing to migrate)`);
+    process.stdout.write(
+      `${warning} Skipped migration (no .lint-todo directory found)`
+    );
   }
 }
 

@@ -29,22 +29,22 @@ describe('migrator', () => {
     tmp = createTmpDir();
   });
 
-  it('skips migrate when no .lint-todo storage directory or file is detected', async () => {
+  it('skips migrate when no .lint-todo storage directory or file is found', async () => {
     debugger;
     let result = await run(['.']);
 
     expect(result.stdout).toMatchInlineSnapshot(
-      `"⚠ Skipped migration (nothing to migrate)"`
+      `"⚠ Skipped migration (no .lint-todo directory found)"`
     );
   });
 
-  it('skips migrate when .lint-todo storage file detected', async () => {
+  it('skips migrate when .lint-todo storage file found', async () => {
     writeTodoStorageFile(getTodoStorageFilePath(tmp), []);
 
     let result = await run(['.']);
 
     expect(result.stdout).toMatchInlineSnapshot(
-      `"⚠ Skipped migration (detected .lint-todo file)"`
+      `"⚠ Skipped migration (.lint-todo file found)"`
     );
   });
 
@@ -54,7 +54,7 @@ describe('migrator', () => {
     let result = await run(['.']);
 
     expect(result.stderr).toMatchInlineSnapshot(
-      `"✖ Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected. Please rerun with the --remove-v1 option or regenerate your todos before migrating."`
+      `"✖ Cannot migrate .lint-todo directory to single file format. Version 1 todo format found. Please rerun with the --remove-v1 option or regenerate your todos before migrating."`
     );
     expect(todoStorageFileExists(tmp)).toEqual(false);
   });
@@ -91,7 +91,9 @@ add|ember-template-lint|no-implicit-this|26|46|26|46|3f2abc39f93d5bc0ea6587f9bc3
 
     let result = await run(['.', '--removeV1']);
 
-    expect(result.stdout).toMatchInlineSnapshot(`"✔ Successfully migrated 11 todos to single file format (5 version 1 todos were removed)"`);
+    expect(result.stdout).toMatchInlineSnapshot(
+      `"✔ Successfully migrated 11 todos to single file format (5 version 1 todos were removed)"`
+    );
     expect(readTodoData(tmp).size).toEqual(11);
     expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' }))
       .toMatchInlineSnapshot(`
