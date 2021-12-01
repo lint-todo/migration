@@ -51,8 +51,13 @@ function migrate(baseDir, flags) {
   } else if (todoStorageDirExists(baseDir)) {
     let todos = readTodoData(baseDir);
     let removeV1 = flags.removeV1;
+    let hasV1 = todos.some((todoDatum) => todoDatum.fileFormat === 1);
+    let counts = {
+      v1: 0,
+      v2: todos.length,
+    };
 
-    if (!removeV1 && todos.some((todoDatum) => todoDatum.fileFormat === 1)) {
+    if (!removeV1 && hasV1) {
       process.stderr.write(
         `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format detected. Please rerun with the --remove-v1 option or regenerate your todos before migrating.`
       );
@@ -64,8 +69,12 @@ function migrate(baseDir, flags) {
 
     renameSync(oldStorageDir, tmpStorageDir);
 
-    if (removeV1) {
+    if (removeV1 && hasV1) {
       todos = todos.filter((todoDatum) => todoDatum.fileFormat === 2);
+
+      let v2Count = todos.length;
+      counts.v1 = counts.v2 - v2Count;
+      counts.v2 = v2Count;
     }
 
     applyTodoChanges(
@@ -76,9 +85,13 @@ function migrate(baseDir, flags) {
 
     rmSync(tmpStorageDir, { recursive: true, force: true });
 
-    process.stdout.write(
-      `${success} Successfully migrated ${todos.length} todos to single file format`
-    );
+    let message = `${success} Successfully migrated ${counts.v2} todos to single file format`;
+
+    if (counts.v1 > 0) {
+      message += ` (${counts.v1} version 1 todos were removed)`;
+    }
+
+    process.stdout.write(message);
   } else {
     process.stdout.write(`${warning} Skipped migration (nothing to migrate)`);
   }

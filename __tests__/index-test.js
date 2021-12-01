@@ -91,9 +91,7 @@ add|ember-template-lint|no-implicit-this|26|46|26|46|3f2abc39f93d5bc0ea6587f9bc3
 
     let result = await run(['.', '--removeV1']);
 
-    expect(result.stdout).toMatchInlineSnapshot(
-      `"✔ Successfully migrated 11 todos to single file format"`
-    );
+    expect(result.stdout).toMatchInlineSnapshot(`"✔ Successfully migrated 11 todos to single file format (5 version 1 todos were removed)"`);
     expect(readTodoData(tmp).size).toEqual(11);
     expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' }))
       .toMatchInlineSnapshot(`
