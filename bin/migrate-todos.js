@@ -1,19 +1,10 @@
-#!/usr/bin/env node
-
 const {
   applyTodoChanges,
   getTodoStorageFilePath,
   todoStorageFileExists,
 } = require('@ember-template-lint/todo-utils');
-const {
-  buildTodoOperations,
-} = require('@ember-template-lint/todo-utils/lib/builders');
 const { renameSync, rmSync } = require('fs-extra');
-const {
-  readTodoData,
-  todoStorageDirExists,
-  getTodoStorageDirPath,
-} = require('legacy-todo-utils');
+const { readTodoData, todoStorageDirExists, getTodoStorageDirPath } = require('legacy-todo-utils');
 const { success, warning, error } = require('log-symbols');
 const meow = require('meow');
 
@@ -45,9 +36,7 @@ function migrate(baseDir, flags) {
   }
 
   if (todoStorageFileExists(baseDir)) {
-    process.stdout.write(
-      `${warning} Skipped migration (.lint-todo file found)`
-    );
+    process.stdout.write(`${warning} Skipped migration (.lint-todo file found)`);
   } else if (todoStorageDirExists(baseDir)) {
     let todos = readTodoData(baseDir);
     let removeV1 = flags.removeV1;
@@ -61,6 +50,8 @@ function migrate(baseDir, flags) {
       process.stderr.write(
         `${error} Cannot migrate .lint-todo directory to single file format. Version 1 todo format found. Please rerun with the --remove-v1 option or regenerate your todos before migrating.`
       );
+
+      // eslint-disable-next-line no-process-exit
       process.exit(1);
     }
 
@@ -77,11 +68,7 @@ function migrate(baseDir, flags) {
       counts.v2 = v2Count;
     }
 
-    applyTodoChanges(
-      getTodoStorageFilePath(baseDir),
-      new Set(todos),
-      new Set()
-    );
+    applyTodoChanges(getTodoStorageFilePath(baseDir), new Set(todos), new Set());
 
     rmSync(tmpStorageDir, { recursive: true, force: true });
 
@@ -93,9 +80,7 @@ function migrate(baseDir, flags) {
 
     process.stdout.write(message);
   } else {
-    process.stdout.write(
-      `${warning} Skipped migration (no .lint-todo directory found)`
-    );
+    process.stdout.write(`${warning} Skipped migration (no .lint-todo directory found)`);
   }
 }
 

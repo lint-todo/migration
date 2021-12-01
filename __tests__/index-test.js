@@ -1,6 +1,6 @@
 const { join } = require('path');
 const { copy } = require('fs-extra');
-const { existsSync, realpathSync, readFileSync } = require('fs');
+const { realpathSync, readFileSync } = require('fs');
 const tmp = require('tmp');
 const execa = require('execa');
 const {
@@ -15,11 +15,10 @@ function createTmpDir() {
 }
 
 async function createFixture(srcDir, destDir) {
-  await copy(
-    join(__dirname, '__fixtures__', srcDir, '.lint-todo'),
-    join(destDir, '.lint-todo'),
-    { recursive: true, overwrite: false }
-  );
+  await copy(join(__dirname, '__fixtures__', srcDir, '.lint-todo'), join(destDir, '.lint-todo'), {
+    recursive: true,
+    overwrite: false,
+  });
 }
 
 describe('migrator', () => {
@@ -30,7 +29,6 @@ describe('migrator', () => {
   });
 
   it('skips migrate when no .lint-todo storage directory or file is found', async () => {
-    debugger;
     let result = await run(['.']);
 
     expect(result.stdout).toMatchInlineSnapshot(
@@ -43,9 +41,7 @@ describe('migrator', () => {
 
     let result = await run(['.']);
 
-    expect(result.stdout).toMatchInlineSnapshot(
-      `"⚠ Skipped migration (.lint-todo file found)"`
-    );
+    expect(result.stdout).toMatchInlineSnapshot(`"⚠ Skipped migration (.lint-todo file found)"`);
   });
 
   it('errors when attempting to migrate todos in v1 format', async () => {
@@ -68,8 +64,7 @@ describe('migrator', () => {
       `"✔ Successfully migrated 11 todos to single file format"`
     );
     expect(readTodoData(tmp).size).toEqual(11);
-    expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' }))
-      .toMatchInlineSnapshot(`
+    expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' })).toMatchInlineSnapshot(`
 "add|ember-template-lint|no-implicit-this|30|33|30|33|442958627e2982816f9069d2e7ca91a0361d4088|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
 add|ember-template-lint|no-implicit-this|33|10|33|10|70adc2ff890d35a6823062862e561fe4a777d8d8|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
 add|ember-template-lint|no-curly-component-invocation|33|8|33|8|83dd6f4e363ecf54ac8e333ae0627c0b19c9ccd5|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
@@ -95,8 +90,7 @@ add|ember-template-lint|no-implicit-this|26|46|26|46|3f2abc39f93d5bc0ea6587f9bc3
       `"✔ Successfully migrated 11 todos to single file format (5 version 1 todos were removed)"`
     );
     expect(readTodoData(tmp).size).toEqual(11);
-    expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' }))
-      .toMatchInlineSnapshot(`
+    expect(readFileSync(getTodoStorageFilePath(tmp), { encoding: 'utf-8' })).toMatchInlineSnapshot(`
 "add|ember-template-lint|no-implicit-this|30|33|30|33|442958627e2982816f9069d2e7ca91a0361d4088|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
 add|ember-template-lint|no-implicit-this|33|10|33|10|70adc2ff890d35a6823062862e561fe4a777d8d8|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
 add|ember-template-lint|no-curly-component-invocation|33|8|33|8|83dd6f4e363ecf54ac8e333ae0627c0b19c9ccd5|1629331200000|2493248400000|2493334800000|addon/templates/components/online/page-title.hbs
