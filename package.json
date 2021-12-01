@@ -2,6 +2,10 @@
   "name": "todo-migrator",
   "version": "1.0.0",
   "description": "A migration tool for lint todos",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lint-todo/migrator.git"
+  },
   "license": "MIT",
   "author": "scalvert <steve.calvert@gmail.com>",
   "bin": {
@@ -20,7 +24,27 @@
     "execa": "^5.0.0",
     "fs-extra": "^10.0.0",
     "jest": "^27.3.1",
+    "release-it": "^14.2.1",
+    "release-it-lerna-changelog": "^3.1.0",
     "tmp": "^0.2.1"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "release-it": {
+    "plugins": {
+      "release-it-lerna-changelog": {
+        "infile": "CHANGELOG.md",
+        "launchEditor": true
+      }
+    },
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true,
+      "tokenRef": "GITHUB_AUTH"
+    }
   },
   "volta": {
     "node": "16.13.0"
