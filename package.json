@@ -1,7 +1,7 @@
 {
   "name": "todo-migrator",
   "version": "1.0.0",
-  "description": "Migration tools for lint todos",
+  "description": "A migration tool for lint todos",
   "license": "MIT",
   "author": "scalvert <steve.calvert@gmail.com>",
   "bin": {
