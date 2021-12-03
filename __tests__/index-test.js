@@ -8,7 +8,7 @@ const {
   readTodoData,
   todoStorageFileExists,
   writeTodoStorageFile,
-} = require('@ember-template-lint/todo-utils');
+} = require('@lint-todo/utils');
 
 function createTmpDir() {
   return realpathSync(tmp.dirSync({ unsafeCleanup: true }).name);

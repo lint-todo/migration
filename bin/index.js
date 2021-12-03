@@ -1,8 +1,6 @@
-const {
-  applyTodoChanges,
-  getTodoStorageFilePath,
-  todoStorageFileExists,
-} = require('@ember-template-lint/todo-utils');
+#!/usr/bin/env node
+
+const { applyTodoChanges, todoStorageFileExists } = require('@lint-todo/utils');
 const { renameSync, rmSync } = require('fs-extra');
 const { readTodoData, todoStorageDirExists, getTodoStorageDirPath } = require('legacy-todo-utils');
 const { success, warning, error } = require('log-symbols');
@@ -69,7 +67,7 @@ function migrate(baseDir, flags) {
       counts.v2 = v2Count;
     }
 
-    applyTodoChanges(getTodoStorageFilePath(baseDir), new Set(todos), new Set());
+    applyTodoChanges(baseDir, new Set(todos), new Set());
 
     rmSync(tmpStorageDir, { recursive: true, force: true });
 

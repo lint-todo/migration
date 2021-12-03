@@ -8,14 +8,14 @@
   },
   "license": "MIT",
   "author": "scalvert <steve.calvert@gmail.com>",
-  "bin": "./bin/migrate-todos.js",
+  "bin": "./bin/index.js",
   "scripts": {
     "test": "npm-run-all lint test:*",
     "test:jest": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
-    "@ember-template-lint/todo-utils": "^11.0.0-alpha.0",
+    "@lint-todo/utils": "^11.0.0",
     "fs-extra": "^10.0.0",
     "legacy-todo-utils": "npm:@ember-template-lint/todo-utils@10.0.0",
     "log-symbols": "^4.0.0",
