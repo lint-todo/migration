@@ -8,9 +8,7 @@
   },
   "license": "MIT",
   "author": "scalvert <steve.calvert@gmail.com>",
-  "bin": {
-    "migrate-todos": "./bin/migrate-todos.js"
-  },
+  "bin": "./bin/migrate-todos.js",
   "scripts": {
     "test": "npm-run-all lint test:*",
     "test:jest": "jest",

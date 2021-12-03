@@ -114,7 +114,7 @@ add|ember-template-lint|no-implicit-this|26|46|26|46|3f2abc39f93d5bc0ea6587f9bc3
 
     return execa(
       process.execPath,
-      [require.resolve('../bin/migrate-todos.js'), ...args],
+      [require.resolve('../bin/index.js'), ...args],
       Object.assign({}, defaults, options)
     );
   }
