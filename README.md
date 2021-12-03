@@ -8,14 +8,14 @@ Migration tool to migrate lint todo files from multi-file storage to single-file
   A migration tool for lint todos
 
   Usage
-    $ todo-migrator <working directory>
+    $ migrate-todos <working directory>
 
   Options
     --removeV1, -r  Remove v1 todos from migration
 
   Examples
-    $ todo-migrator .
-    ✔ Successfully migrated 10 todos to single file format
+    $ migrate-todos .
+     ✔ Successfully migrated 10 todos to single file format
 ```
 
 From within the project directory, run:

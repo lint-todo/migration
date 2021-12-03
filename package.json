@@ -1,5 +1,5 @@
 {
-  "name": "todo-migrator",
+  "name": "@lint-todo/migrator",
   "version": "1.0.0",
   "description": "A migration tool for lint todos",
   "repository": {

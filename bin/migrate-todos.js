@@ -11,13 +11,14 @@ const meow = require('meow');
 const cli = meow(
   `
 	Usage
-	  $ todo-migrator <working directory>
+	  $ migrate-todos <working directory>
 
 	Options
 	  --removeV1, -r  Remove v1 todos from migration
 
 	Examples
-	  $ todo-migrator .
+	  $ migrate-todos .
+    ✔ Successfully migrated 10 todos to single file format
 `,
   {
     flags: {
