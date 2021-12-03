@@ -37,7 +37,8 @@
     "tmp": "^0.2.1"
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "release-it": {
     "plugins": {
